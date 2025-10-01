@@ -1,0 +1,35 @@
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+
+local LocalPlayer = Players.LocalPlayer
+
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "TeleportOrbsGui"
+screenGui.ResetOnSpawn = false
+
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 200, 0, 50)
+button.Position = UDim2.new(0.5, -100, 0.8, 0)
+button.Text = "Teleport Through Orbs"
+button.TextScaled = true
+button.Font = Enum.Font.FredokaOne
+button.Parent = screenGui
+local buttoncorner = Instance.new("UICorner")
+buttoncorner.CornerRadius = UDim.new(0, 10)
+buttoncorner.Parent = button
+
+screenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+
+button.MouseButton1Click:Connect(function()
+	local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+	local orbsFolder = Workspace:FindFirstChild("Orbs")
+	if orbsFolder then
+		for i, orb in orbsFolder:GetChildren() do
+			if orb:IsA("BasePart") then
+				character:PivotTo(orb:GetPivot())
+				task.wait()
+			end
+		end
+	end
+end)
